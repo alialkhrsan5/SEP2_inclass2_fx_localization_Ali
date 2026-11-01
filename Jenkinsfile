@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'master', url: 'https://github.com/alialkhrsan5/SEP2_inclass2_fx_localization.git'
+                git branch: 'master', url: 'https://github.com/alialkhrsan5/SEP2_inclass2_fx_localization_Ali.git'
             }
         }
 
