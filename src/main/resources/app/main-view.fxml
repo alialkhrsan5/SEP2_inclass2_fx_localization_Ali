@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="15.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="app.MainController">
+    <padding>
+        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+    </padding>
+
+    <GridPane hgap="10.0" vgap="10.0">
+        <Label text="%label.language" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <ComboBox fx:id="languageComboBox" prefWidth="220.0"
+                  GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <Label text="%label.temperature" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <TextField fx:id="valueField" prefWidth="220.0"
+                   GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+        <Label text="%label.conversion" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <ComboBox fx:id="unitComboBox" prefWidth="220.0"
+                  GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+        <Button text="%button.convert" onAction="#handleConvert"
+                GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+        <Label fx:id="resultLabel" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+    </GridPane>
+
+    <Label text="%label.history"/>
+
+    <TableView fx:id="tableView" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="idColumn" text="%table.id" prefWidth="50.0"/>
+            <TableColumn fx:id="inputColumn" text="%table.input" prefWidth="90.0"/>
+            <TableColumn fx:id="resultColumn" text="%table.result" prefWidth="90.0"/>
+            <TableColumn fx:id="unitColumn" text="%table.unit" prefWidth="180.0"/>
+            <TableColumn fx:id="createdColumn" text="%table.created" prefWidth="170.0"/>
+        </columns>
+    </TableView>
+</VBox>

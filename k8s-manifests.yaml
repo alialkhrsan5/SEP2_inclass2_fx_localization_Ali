@@ -1,0 +1,54 @@
+---
+# 1. Database credentials
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mariadb-secret
+type: Opaque
+stringData:
+  mariadb-user: "tempuser"
+  mariadb-password: "temp123"
+  mariadb-database: "svg_temp_db"
+
+---
+# 2. JavaFX application deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: javafx-temp-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: javafx-temp-app
+  template:
+    metadata:
+      labels:
+        app: javafx-temp-app
+    spec:
+      containers:
+        - name: javafx-app
+          image: alii123x/temp-fx-localization:latest
+          imagePullPolicy: Never
+          env:
+            - name: DB_HOST
+              value: "host.minikube.internal"   # routes to the Windows host
+            - name: DB_PORT
+              value: "3306"
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-secret
+                  key: mariadb-database
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-secret
+                  key: mariadb-user
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-secret
+                  key: mariadb-password
+            - name: DISPLAY
+              value: "host.minikube.internal:0.0"
