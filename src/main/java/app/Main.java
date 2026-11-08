@@ -2,6 +2,7 @@ package app;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.NodeOrientation;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -42,8 +43,14 @@ public class Main extends Application {
         MainController controller = loader.getController();
         controller.init(locale, bundle);
 
+        if ("ar".equals(locale.getLanguage())) {
+            root.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+        } else {
+            root.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
+        }
+
         stage.setTitle(bundle.getString("app.title"));
-        stage.setScene(new Scene(root, 680, 520));
+        stage.setScene(new Scene(root, 760, 540));
     }
 
     public static void main(String[] args) {

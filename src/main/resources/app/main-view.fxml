@@ -25,24 +25,31 @@
         <TextField fx:id="valueField" prefWidth="220.0"
                    GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-        <Label text="%label.conversion" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-        <ComboBox fx:id="unitComboBox" prefWidth="220.0"
+        <Label text="%label.from" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <ComboBox fx:id="fromUnitComboBox" prefWidth="220.0"
                   GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
-        <Button text="%button.convert" onAction="#handleConvert"
-                GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <Label fx:id="descriptionLabel" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
 
-        <Label fx:id="resultLabel" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+        <Label text="%label.to" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <ComboBox fx:id="toUnitComboBox" prefWidth="220.0"
+                  GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+        <Button text="%button.convert" onAction="#handleConvert"
+                GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+        <Label fx:id="resultLabel" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
     </GridPane>
 
     <Label text="%label.history"/>
 
     <TableView fx:id="tableView" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn fx:id="idColumn" text="%table.id" prefWidth="50.0"/>
             <TableColumn fx:id="inputColumn" text="%table.input" prefWidth="90.0"/>
-            <TableColumn fx:id="resultColumn" text="%table.result" prefWidth="90.0"/>
-            <TableColumn fx:id="unitColumn" text="%table.unit" prefWidth="180.0"/>
+            <TableColumn fx:id="fromColumn" text="%table.from" prefWidth="120.0"/>
+            <TableColumn fx:id="toColumn" text="%table.to" prefWidth="120.0"/>
+            <TableColumn fx:id="resultColumn" text="%table.result" prefWidth="110.0"/>
+            <TableColumn fx:id="langColumn" text="%table.language" prefWidth="80.0"/>
             <TableColumn fx:id="createdColumn" text="%table.created" prefWidth="170.0"/>
         </columns>
     </TableView>

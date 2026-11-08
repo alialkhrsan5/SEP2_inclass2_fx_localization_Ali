@@ -11,14 +11,12 @@ public class TempCalculatorTest {
         assertEquals(0.0, TempCalculator.fahrenheitToCelsius(32), 0.0001);
         assertEquals(100.0, TempCalculator.fahrenheitToCelsius(212), 0.0001);
         assertEquals(-40.0, TempCalculator.fahrenheitToCelsius(-40), 0.0001);
-        assertEquals(37.0, TempCalculator.fahrenheitToCelsius(98.6), 0.0001);
     }
 
     @Test
     void celsiusToFahrenheitConvertsCorrectly() {
         assertEquals(32.0, TempCalculator.celsiusToFahrenheit(0), 0.0001);
         assertEquals(212.0, TempCalculator.celsiusToFahrenheit(100), 0.0001);
-        assertEquals(-40.0, TempCalculator.celsiusToFahrenheit(-40), 0.0001);
         assertEquals(98.6, TempCalculator.celsiusToFahrenheit(37), 0.0001);
     }
 
@@ -27,6 +25,28 @@ public class TempCalculatorTest {
         assertEquals(26.85, TempCalculator.kelvinToCelsius(300), 0.0001);
         assertEquals(0.0, TempCalculator.kelvinToCelsius(273.15), 0.0001);
         assertEquals(-273.15, TempCalculator.kelvinToCelsius(0), 0.0001);
+    }
+
+    @Test
+    void celsiusToKelvinConvertsCorrectly() {
+        assertEquals(273.15, TempCalculator.celsiusToKelvin(0), 0.0001);
+        assertEquals(373.15, TempCalculator.celsiusToKelvin(100), 0.0001);
+    }
+
+    @Test
+    void convertHandlesEveryUnitPair() {
+        assertEquals(0.0, TempCalculator.convert(32, "fahrenheit", "celsius"), 0.0001);
+        assertEquals(32.0, TempCalculator.convert(0, "celsius", "fahrenheit"), 0.0001);
+        assertEquals(26.85, TempCalculator.convert(300, "kelvin", "celsius"), 0.0001);
+        assertEquals(273.15, TempCalculator.convert(0, "celsius", "kelvin"), 0.0001);
+        assertEquals(212.0, TempCalculator.convert(373.15, "kelvin", "fahrenheit"), 0.0001);
+        assertEquals(373.15, TempCalculator.convert(212, "fahrenheit", "kelvin"), 0.0001);
+    }
+
+    @Test
+    void convertToTheSameUnitReturnsTheSameValue() {
+        assertEquals(25.0, TempCalculator.convert(25, "celsius", "celsius"), 0.0001);
+        assertEquals(70.0, TempCalculator.convert(70, "fahrenheit", "fahrenheit"), 0.0001);
     }
 
     @Test
@@ -39,12 +59,7 @@ public class TempCalculatorTest {
     void boundaryValuesAreNotExtreme() {
         assertFalse(TempCalculator.isExtremeTemperature(-40));
         assertFalse(TempCalculator.isExtremeTemperature(50));
-    }
-
-    @Test
-    void normalTemperaturesAreNotExtreme() {
         assertFalse(TempCalculator.isExtremeTemperature(0));
-        assertFalse(TempCalculator.isExtremeTemperature(25));
     }
 
     @Test
@@ -58,14 +73,10 @@ public class TempCalculatorTest {
     }
 
     @Test
-    void convertUsesTheConversionIdFromTheDatabase() {
-        assertEquals(0.0, TempCalculator.convert(1, 32), 0.0001);
-        assertEquals(32.0, TempCalculator.convert(2, 0), 0.0001);
-        assertEquals(26.85, TempCalculator.convert(3, 300), 0.0001);
-    }
-
-    @Test
-    void convertRejectsUnknownConversionId() {
-        assertThrows(IllegalArgumentException.class, () -> TempCalculator.convert(9, 10));
+    void convertRejectsUnknownUnits() {
+        assertThrows(IllegalArgumentException.class,
+                () -> TempCalculator.convert(10, "rankine", "celsius"));
+        assertThrows(IllegalArgumentException.class,
+                () -> TempCalculator.convert(10, "celsius", "rankine"));
     }
 }

@@ -2,6 +2,10 @@ package app;
 
 public class TempCalculator {
 
+    public static final String CELSIUS = "celsius";
+    public static final String FAHRENHEIT = "fahrenheit";
+    public static final String KELVIN = "kelvin";
+
     public static void validateCelsius(double celsius) {
         if (celsius < -273.15) {
             throw new IllegalArgumentException("Celsius cannot be below absolute zero: " + celsius);
@@ -28,16 +32,37 @@ public class TempCalculator {
         return kelvin - 273.15;
     }
 
+    public static double celsiusToKelvin(double celsius) {
+        validateCelsius(celsius);
+        return celsius + 273.15;
+    }
+
     public static boolean isExtremeTemperature(double celsius) {
         return celsius < -40 || celsius > 50;
     }
 
-    public static double convert(int unitId, double value) {
-        return switch (unitId) {
-            case 1 -> fahrenheitToCelsius(value);
-            case 2 -> celsiusToFahrenheit(value);
-            case 3 -> kelvinToCelsius(value);
-            default -> throw new IllegalArgumentException("Unknown conversion id: " + unitId);
+    public static double toCelsius(double value, String fromCode) {
+        return switch (fromCode) {
+            case CELSIUS -> {
+                validateCelsius(value);
+                yield value;
+            }
+            case FAHRENHEIT -> fahrenheitToCelsius(value);
+            case KELVIN -> kelvinToCelsius(value);
+            default -> throw new IllegalArgumentException("Unknown unit: " + fromCode);
         };
+    }
+
+    public static double fromCelsius(double celsius, String toCode) {
+        return switch (toCode) {
+            case CELSIUS -> celsius;
+            case FAHRENHEIT -> celsiusToFahrenheit(celsius);
+            case KELVIN -> celsiusToKelvin(celsius);
+            default -> throw new IllegalArgumentException("Unknown unit: " + toCode);
+        };
+    }
+
+    public static double convert(double value, String fromCode, String toCode) {
+        return fromCelsius(toCelsius(value, fromCode), toCode);
     }
 }
