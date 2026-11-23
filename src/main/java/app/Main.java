@@ -49,7 +49,7 @@ public class Main extends Application {
             root.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
         }
 
-        stage.setTitle(bundle.getString("app.title"));
+        stage.setTitle(bundle.getString("app.title") + " - Ali Al-Khrsan");
         stage.setScene(new Scene(root, 760, 540));
     }
 
