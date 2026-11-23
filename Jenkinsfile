@@ -8,6 +8,8 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'alii123x/temp-fx-localization'
         DOCKER = 'C:\\Users\\alial\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe'
+        SONARQUBE_SERVER = 'SonarQubeServer'
+        SCANNER_HOME = tool 'SonarScanner'
     }
 
     stages {
@@ -32,6 +34,27 @@ pipeline {
         stage('Code Coverage') {
             steps {
                 bat 'mvn jacoco:report'
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
+                    withSonarQubeEnv("${env.SONARQUBE_SERVER}") {
+                        bat """
+                          "%SCANNER_HOME%\\bin\\sonar-scanner.bat" ^
+                          -Dsonar.projectKey=temp-fx-localization ^
+                          -Dsonar.projectName=temp-fx-localization ^
+                          -Dsonar.sources=src/main ^
+                          -Dsonar.tests=src/test ^
+                          -Dsonar.java.binaries=target/classes ^
+                          -Dsonar.java.test.binaries=target/test-classes ^
+                          -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml ^
+                          -Dsonar.host.url=http://localhost:9000 ^
+                          -Dsonar.token=%SONAR_TOKEN%
+                        """
+                    }
+                }
             }
         }
 
